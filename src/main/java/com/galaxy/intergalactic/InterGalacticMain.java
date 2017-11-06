@@ -15,7 +15,7 @@ public class InterGalacticMain {
     public static void main(String[] args) throws IOException {
         AbstractApplicationContext context = new AnnotationConfigApplicationContext(InterGalacticMain.class);
         InputLineService inputLineService = context.getBean(InputLineService.class);
-        Files.lines(Paths.get("src/main/resources/default.txt"))
+        Files.lines(Paths.get("src", "main", "resources", "TestInput.txt"))
               .forEach(line -> inputLineService.processInputLine(line));
     }
 }
