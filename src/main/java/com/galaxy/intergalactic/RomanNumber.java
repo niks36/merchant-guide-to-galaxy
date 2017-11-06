@@ -1,5 +1,7 @@
 package com.galaxy.intergalactic;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.xml.bind.ValidationException;
 import java.util.*;
 import java.util.function.Function;
@@ -35,24 +37,27 @@ public enum RomanNumber {
     }
 
     public static int evaluate(String expression) throws ValidationException {
+        if (StringUtils.isBlank(expression)) {
+            return 0;
+        }
         char[] roman = expression.toCharArray();
         int sum = fromChar(roman[roman.length - 1]).getValue();
+        int count = 1;
         for (int i = roman.length - 2; i >= 0; --i) {
             RomanNumber current = fromChar(roman[i]);
             RomanNumber after = fromChar(roman[i + 1]);
             if (after.getValue() == current.getValue()) {
                 /*validate no of repeat*/
-                int count = 1;
-                while (i >= 0 && current.getValue() == after.getValue()) {
-                    count++;
-                    if (count > current.noOfRepeatAllowed) {
-                        throw new ValidationException(String.format("Roman Number %s can be repeated for %d times", current.name(), current.noOfRepeatAllowed));
-                    }
-                    sum += current.getValue();
-                    after = current;
-                    current = fromChar(roman[i--]);
+                count++;
+                if (count > current.noOfRepeatAllowed) {
+                    throw new ValidationException(String.format("Roman Number %s can be repeated for %d times", current.name(), current.noOfRepeatAllowed));
                 }
-            } else if (after.getValue() < current.getValue()) {
+                sum += current.getValue();
+                continue;
+            }
+
+            count = 1;
+            if (after.getValue() < current.getValue()) {
                 sum += current.getValue();
             } else {
                 char afterChar = roman[i + 1];
@@ -66,7 +71,7 @@ public enum RomanNumber {
         return sum;
     }
 
-    private static RomanNumber fromChar(char romanSymbol) throws ValidationException {
+    public static RomanNumber fromChar(char romanSymbol) throws ValidationException {
         RomanNumber romanNumber = romanNumberMap.get(romanSymbol);
         if (romanNumber == null) {
             throw new ValidationException(String.format("Invalid Roman Symbol %c", romanSymbol));

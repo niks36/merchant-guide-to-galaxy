@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>file-downloader.log </file>
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d %m%n</Pattern>
+        </encoder>
+    </appender>
+
+    <logger name="ch.qos" level="WARN"/>
+
+    <root level="debug">
+        <appender-ref ref="FILE" />
+    </root>
+
+</configuration>

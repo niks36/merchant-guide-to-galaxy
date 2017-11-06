@@ -17,6 +17,7 @@ public class RomanNumberTest {
     public void evaluate() throws Exception {
         assertThat(RomanNumber.evaluate("MMVI"), is(equalTo(2006 )));
         assertThat(RomanNumber.evaluate("MCMXLIV"), is(equalTo(1944 )));
+        assertThat(RomanNumber.evaluate("XLII"), is(equalTo(42 )));
     }
 
     @Test(expected = ValidationException.class)
